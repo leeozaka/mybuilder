@@ -233,7 +233,7 @@ int main(int argc, char **argv) {
   FILE *cfg;
   configs *configuracao_atual = init();
   int file_size;
-  char *console_write, opc;
+  // char *console_write, opc;
 
   printf("leonardo's builder v0.0.1\n");
   printf("%s\n", try_to_open(&cfg) ? "config file opened"
@@ -245,7 +245,7 @@ int main(int argc, char **argv) {
     if (file_size > 0) {
       rewind(cfg);
       read_cfg(configuracao_atual, cfg);
-      // fread(configuracao_atual, sizeof(configs), 1, cfg);
+
     } else {
       printf("sem cfg estabelecida\n");
       printf("aperte a para criar nova cfg ");
@@ -256,7 +256,6 @@ int main(int argc, char **argv) {
     }
   }
 
-  printf("%d  \n", argc);
   if (argc == 1) {
     printf("D - delete configs\n");
     if (_getch() == 'D') {
@@ -266,10 +265,10 @@ int main(int argc, char **argv) {
     fclose(cfg);
     return 0;
   }
-  console_write = mkstring(configuracao_atual, argv[1]);
-  puts(console_write);
 
-  file_size = ftell(cfg);
-  printf("%d", file_size);
+  int exitcode = system(mkstring(configuracao_atual, argv[1]));
+  if (exitcode == 0)
+    printf("builded\n");
+
   fclose(cfg);
 }
